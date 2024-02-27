@@ -4,6 +4,12 @@
     --text-color: #333;
     --primary-color: #3bb77e;
     --primary-box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.05);
+    --colorTextBlackSoft: rgba(0, 0, 0, .58);
+    --colorBlack10: rgba(0, 0, 0, .1);
+    --iconTransition: all ease-out 0.2s;
+    --colorTextBlackSoft: rgba(0, 0, 0, .58);
+    --text_Size2: 1.4rem;
+
 }
 
 * {
