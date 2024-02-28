@@ -797,9 +797,6 @@
     color: red;
     cursor: pointer;
 }
-.header__cart-footer {
-
-}
 .header__cart-footer-total {
     display: flex;
     justify-content: space-between;
@@ -850,6 +847,7 @@
 .header__search {
     display: flex;
     align-items: center;
+    position: relative;
 }
 .header__search-input {
     width: 700px;
@@ -869,7 +867,7 @@
 .header__search-icon {
     position: absolute;
     font-size: 1.6rem;
-    right: 362px;
+    right: 192px;
 }
 .header__search-btn {
     width: 168px;
@@ -948,7 +946,7 @@
     border: 1px solid #e5e5e5;
     box-shadow: var(--primary-box-shadow);
     border-radius: 10px;
-    /* z-index: 999; */
+    z-index: 999;
     margin-top: 34px;
     display: none;
 }
