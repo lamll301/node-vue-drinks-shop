@@ -9,7 +9,6 @@
     --iconTransition: all ease-out 0.2s;
     --colorTextBlackSoft: rgba(0, 0, 0, .58);
     --text_Size2: 1.4rem;
-
 }
 
 * {
@@ -37,7 +36,9 @@ html {
     display: flex;
     flex-wrap: wrap;
 }
+/* Modal */
 
+/* animation */
 @keyframes fadeIn1 {
     from {
         opacity: 0;

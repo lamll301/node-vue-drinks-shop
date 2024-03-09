@@ -1,0 +1,36 @@
+{
+  "name": "vue-drinks-shop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lamll301/node-vue-drinks-shop.git"
+  },
+  "keywords": [
+    "node",
+    "vue",
+    "drinks",
+    "shop",
+    "drinks",
+    "shop",
+    "nodejs",
+    "vuejs"
+  ],
+  "author": "lamll",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lamll301/node-vue-drinks-shop/issues"
+  },
+  "homepage": "https://github.com/lamll301/node-vue-drinks-shop#readme",
+  "dependencies": {
+    "express": "^4.18.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
