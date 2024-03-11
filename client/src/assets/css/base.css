@@ -1,0 +1,138 @@
+:root {
+    --white-color: #fff;
+    --black-color: #000;
+    --text-color: #333;
+    --primary-color: #3bb77e;
+    --primary-box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.05);
+    --colorTextBlackSoft: rgba(0, 0, 0, .58);
+    --colorBlack10: rgba(0, 0, 0, .1);
+    --iconTransition: all ease-out 0.2s;
+    --colorTextBlackSoft: rgba(0, 0, 0, .58);
+    --text_Size2: 1.4rem;
+}
+
+* {
+    box-sizing: inherit;
+}
+
+html {
+    font-size: 62.5%;
+    line-height: 1.6rem;
+    font-family: "Roboto", sans-serif;
+    box-sizing: border-box;
+}
+
+.grid {
+    width: 1495.2px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.grid__full-width {
+    width: 100%;
+}
+
+.grid__row {
+    display: flex;
+    flex-wrap: wrap;
+}
+/* Modal */
+
+/* animation */
+@keyframes fadeIn1 {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes fadeIn2 {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+.flex {
+    display: flex !important;
+}
+.hidden {
+    display: none !important;
+}
+.valid-elm {
+    height: 38px !important;
+    font-size: 1.6rem !important;
+}
+.fs-16 {
+    font-size: 16px !important;
+}
+.mb-16 {
+    margin-bottom: 16px !important;
+}
+.height-105 {
+    height: 105px !important;
+}
+.lh-30 {
+    line-height: 30px !important;
+}
+.white {
+    color: #fff !important;
+}
+.black {
+    color: #000 !important;
+}
+.dark-blue {
+    color: #148a9d !important;
+}
+.dark-green {
+    color: #228e3b !important;
+}
+.dark-yellow {
+    color: #d9a406 !important
+}
+.dark-red {
+    color: #bb2d3b !important
+}
+.bg-blue {
+    background-color: #17a2b8 !important;
+}
+.bg-green {
+    background-color: #28a745 !important;
+}
+.bg-yellow {
+    background-color: #ffc107 !important;
+}
+.bg-red {
+    background-color: #dc3545 !important;
+}
+.bg-dark-blue {
+    background-color: #148a9d !important;
+}
+.bg-dark-green {
+    background-color: #228e3b !important;
+}
+.bg-dark-yellow {
+    background-color: #d9a406 !important;
+}
+.bg-dark-red {
+    background-color: #bb2d3b !important;
+}
+/* button */
+.button {
+    border: 2px solid #3BB77E;
+    border-radius: 4px;
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+    color: var(--white-color);
+}
+.button:hover {
+    color: var(--white-color);
+    background-color: #FDC040;
+}
