@@ -5,17 +5,22 @@ const admin = [
         children: [
             {
                 path: "",
-                name: "admin-home",
+                name: "admin.home",
                 component: () => import("../pages/admin/AdminHome.vue"),
             },
             {
-                path: "beverages",
-                name: "admin-beverages",
+                path: "beverage",
+                name: "admin.beverages",
                 component: () => import("../pages/admin/beverages/BeverageList.vue"),
             },
             {
-                path: "beverages/create",
-                name: "admin-beverages-create",
+                path: "beverage/create",
+                name: "admin.beverages.create",
+                component: () => import("../pages/admin/beverages/BeverageForm.vue"),
+            },
+            {
+                path: "beverage/edit/:id",
+                name: "admin.beverages.edit",
                 component: () => import("../pages/admin/beverages/BeverageForm.vue"),
             },
         ]
