@@ -17,7 +17,7 @@
                             <ul class="header__top-user-menu">
                                 <li class="header__top-user-item">
                                     <a class="header__top-user-item-info">
-                                        <img src="../assets/img/avatar.jpg" alt="" class="header__top-user-item-avatar">
+                                        <img src="" alt="" class="header__top-user-item-avatar">
                                         <p class="header__top-user-item-name">Lam Le</p>
                                     </a>
                                 </li>

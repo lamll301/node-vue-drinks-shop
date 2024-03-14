@@ -3,9 +3,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Beverage = new Schema({
-    name: { type: String, required: true },
+    name: { type: String },
     description: { type: String },
     image: { data: Buffer, contentType: String },
+    imageName: { type: String, default: "" },
     // sellingPrice: { type: Number, min: 0, default: 0 },     //Gia ban
     listingPrice: { type: Number, min: 0, default: 0 },     //Gia niem yet
     quantity: { type: Number, min: 0, default: 0 },

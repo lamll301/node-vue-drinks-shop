@@ -5,8 +5,6 @@ const methodOverride = require('method-override')
 const route = require('./routes')
 const db = require('./config/db')
 
-// Middlewares
-const uploadImg = require('./app/middlewares/uploadImgMiddleware')
 // Connect db
 db.connect()
 
@@ -21,9 +19,6 @@ app.use(express.json())
 
 app.use(methodOverride('_method'))
 app.use(cors())
-
-// Use middlewares
-// app.use(uploadImg)
 // HTTP logger
 // app.use(morgan('combined'))
 

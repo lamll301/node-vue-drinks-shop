@@ -26,7 +26,7 @@
                             <td >
                                 <div class="admin-content__table-name-cell">
                                     <div class="admin-content__table-img-cell">
-                                        <img :src="beverage.image" alt="">
+                                        <img :src="getImgPath(beverage.imageName)" alt="">
                                     </div>
                                     <router-link :to="{ name: 'admin.beverages.edit', params: { id: beverage._id } }">{{ beverage.name }}</router-link>
                                 </div>
@@ -60,6 +60,14 @@ export default {
             this.$request.get('http://localhost:8080/admin/beverage').then(res => {
                 this.beverages = res.data
             })
+        },
+        getImgPath(imgName) {
+            try {
+                return require(`../../../assets/img/products/${imgName}`)
+            }
+            catch {
+                return require(`../../../assets/img/no-img-available.jpg`)
+            }
         }
     }
 }

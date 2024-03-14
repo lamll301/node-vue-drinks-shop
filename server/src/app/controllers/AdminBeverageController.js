@@ -19,7 +19,16 @@ class AdminBeverageController {
 
     // [POST] /admin/beverage/create
     async create(req, res, next) {
-        const beverage = new Beverage(req.body);
+        let beverageObj = { ...req.body };
+        if (req.file) {
+            beverageObj.image = {
+                data: req.file.buffer,
+                contentType: req.file.mimetype,
+            }
+            beverageObj.imageName = req.file.filename
+        }
+        // res.send(beverageObj)
+        const beverage = new Beverage(beverageObj);
         await beverage.save()
             .then(() => res.send('success'))
             .catch(next)
@@ -27,7 +36,15 @@ class AdminBeverageController {
 
     // [PUT] /admin/beverage/:id
     async update(req, res, next) {
-        await Beverage.updateOne({ _id: req.params.id }, req.body)
+        let beverageObj = { ...req.body };
+        if (req.file) {
+            beverageObj.image = {
+                data: req.file.buffer,
+                contentType: req.file.mimetype,
+            }
+            beverageObj.imageName = req.file.filename
+        }
+        await Beverage.updateOne({ _id: req.params.id }, beverageObj)
             .then(() => res.send('success'))
             .catch(next)
     } 

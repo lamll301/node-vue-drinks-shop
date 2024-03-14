@@ -62,8 +62,8 @@
                 </div>
                 <ul class="header-admin__dropdown-menu">
                     <li class="header-admin__dropdown-item"><router-link to="/admin/beverage">Tất cả đồ uống</router-link></li>
-                    <li class="header-admin__dropdown-item"><a href="#">Test2</a></li>
-                    <li class="header-admin__dropdown-item"><a href="#">Test2</a></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/beverage/create">Thêm đồ uống</router-link></li>
+
                 </ul>
             </div>
             <div class="header-admin__dropdown">

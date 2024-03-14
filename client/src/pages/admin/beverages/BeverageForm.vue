@@ -4,10 +4,12 @@
             <div class="admin-content__heading">
                 <h3>Quản lý đồ uống</h3>
             </div>
+            <img src="">
             <!-- admin form -->
             <div class="admin-content__form">
                 <div class="admin-content__header">
-                    <h4>Form {{ title }} đồ uống</h4>
+                    <h4 v-if="this.$route.params.id">Form sửa đồ uống</h4>
+                    <h4 v-else>Form thêm đồ uống</h4>
                 </div>
                 <form @submit.prevent="save()" enctype="multipart/form-data">
                 <div class="admin-content__form-body">
@@ -25,7 +27,7 @@
                     <div class="mb-16">
                         <h3 class="admin-content__form-text">Ảnh</h3>
                         <div class="valid-elm input-group">
-                            <input type="file" class="fs-16 lh-30 form-control" name="myImage" accept="image/*">
+                            <input type="file" class="fs-16 lh-30 form-control" name="image" accept="image/*" @change="handleImg($event)">
                         </div>
                     </div>
                     <div class="mb-16 height-105">
@@ -81,22 +83,16 @@ export default {
     name: 'BeverageForm',
     data() {
         return {
-            title: 'thêm',
             errors: {
                 name: '',
-                description: '',
             },
-            beverage: {
-                name: '',
-                description: '',
-            }
+            beverage: {}
         }
     },
     created() {
         let beverageId = this.$route.params.id
         if (beverageId) {
             this.getBeverage(beverageId)
-            this.title = 'sửa'
         }
     },
     methods: {
@@ -104,7 +100,6 @@ export default {
             let isValid = true
             this.errors = {
                 name: '',
-                description: '',
             }
             if (!this.beverage.name) {
                 this.errors.name = 'Tên đồ uống không được để trống'
@@ -117,15 +112,32 @@ export default {
                 this.beverage = res.data
             })
         },
+        handleImg(event) {
+            let img = event.target.files[0]
+            if (img) {
+                this.beverage.image = img
+            }
+        },
         save() {
             if (this.validate()) {
                 if (this.beverage._id) {
-                    this.$request.put(`http://localhost:8080/admin/beverage/${this.beverage._id}`, this.beverage).then(res => {
+                    // sửa
+                    const beverageForm = new FormData()
+                    for (let key in this.beverage) {
+                        beverageForm.append(key, this.beverage[key])
+                    }
+                    this.$request.put(`http://localhost:8080/admin/beverage/${this.beverage._id}`, beverageForm).then(res => {
                         this.$router.push({name: 'admin.beverages'})
                     })
                 }
                 else {
-                    this.$request.post('http://localhost:8080/admin/beverage/create', this.beverage).then(res => {
+                    // thêm
+                    const beverageForm = new FormData()
+                    for (let key in this.beverage) {
+                        beverageForm.append(key, this.beverage[key])
+                    }
+                    console.log(beverageForm)
+                    this.$request.post('http://localhost:8080/admin/beverage/create', beverageForm).then(res => {
                         this.$router.push({name: 'admin.beverages'})
                     })
                 }
