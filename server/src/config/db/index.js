@@ -5,6 +5,7 @@ async function connect() {
 
     try {
         await mongoose.connect('mongodb+srv://root:1234@cluster0.pnngwnu.mongodb.net/drinks_shop_dev')
+        // await mongoose.connect('mongodb://localhost:27017/drinks_shop_dev')
         console.log('Connected successfully!')
     }
     catch (error) {

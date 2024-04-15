@@ -13,19 +13,22 @@
                 </div>
                 <form @submit.prevent="save()" enctype="multipart/form-data">
                 <div class="admin-content__form-body">
-                    <div class="mb-16">
-                        <h3 class="admin-content__form-text">Tên</h3>
+                    <div v-if="this.$route.params.id" class="mb-16">
+                        <h3 class="admin-content__form-text">Mã đồ uống</h3>
                         <div class="valid-elm input-group">
-                            <input type="text" class="fs-16 form-control" placeholder="Nhập tên đồ uống" 
-                            v-model="beverage.name" v-bind:class="{'is-invalid': errors.name}" @blur="validate()">
-                            <div class="invalid-feedback"
-                                v-if="errors.name">
-                                {{ errors.name }}
-                            </div>
+                            <input type="text" class="fs-16 form-control" readonly v-model="beverage._id">
                         </div>
                     </div>
                     <div class="mb-16">
-                        <h3 class="admin-content__form-text">Ảnh</h3>
+                        <h3 class="admin-content__form-text">Tên đồ uống</h3>
+                        <div class="valid-elm input-group">
+                            <input type="text" class="fs-16 form-control" placeholder="Nhập tên đồ uống" 
+                            v-model="beverage.name" v-bind:class="{'is-invalid': errors.name}" @blur="validate()">
+                            <div class="invalid-feedback" v-if="errors.name">{{ errors.name }}</div>
+                        </div>
+                    </div>
+                    <div class="mb-16">
+                        <h3 class="admin-content__form-text">Ảnh đồ uống</h3>
                         <div class="valid-elm input-group">
                             <input type="file" class="fs-16 lh-30 form-control" name="image" accept="image/*" @change="handleImg($event)">
                         </div>
@@ -39,21 +42,27 @@
                     <div class="mb-16">
                         <h3 class="admin-content__form-text">Giá niêm yết</h3>
                         <div class="valid-elm input-group">
-                            <input type="number" class="fs-16 form-control" v-model="beverage.listingPrice">
+                            <input type="number" class="fs-16 form-control" v-model="beverage.listingPrice"
+                            v-bind:class="{'is-invalid': errors.listingPrice}" @blur="validate()">
                             <span class="fs-16 input-group-text">đồng</span>
+                            <div class="invalid-feedback" v-if="errors.listingPrice">{{ errors.listingPrice }}</div>
                         </div>
                     </div>
                     <div class="admin-content__form-divided">
                         <div class="mb-16">
                             <h3 class="admin-content__form-text">Số lượng trên cửa hàng</h3>
                             <div class="valid-elm input-group">
-                                <input type="number" class="fs-16 form-control" placeholder="" v-model="beverage.quantity">
+                                <input type="number" class="fs-16 form-control" placeholder="" v-model="beverage.quantity"
+                                v-bind:class="{'is-invalid': errors.quantity}" @blur="validate()">
+                                <div class="invalid-feedback" v-if="errors.quantity">{{ errors.quantity }}</div>
                             </div>
                         </div>
                         <div class="mb-16">
                             <h3 class="admin-content__form-text">Số lượng tồn kho</h3>
                             <div class="valid-elm input-group">
-                                <input type="number" class="fs-16 form-control" placeholder="" v-model="beverage.inventoryQuantity">
+                                <input type="number" class="fs-16 form-control" placeholder="" v-model="beverage.inventoryQuantity"
+                                v-bind:class="{'is-invalid': errors.inventoryQuantity}" @blur="validate()">
+                                <div class="invalid-feedback" v-if="errors.inventoryQuantity">{{ errors.inventoryQuantity }}</div>
                             </div>
                         </div>
                     </div>
@@ -85,6 +94,9 @@ export default {
         return {
             errors: {
                 name: '',
+                listingPrice: '',
+                quantity: '',
+                inventoryQuantity: ''
             },
             beverage: {}
         }
@@ -100,9 +112,24 @@ export default {
             let isValid = true
             this.errors = {
                 name: '',
+                listingPrice: '',
+                quantity: '',
+                inventoryQuantity: ''
             }
             if (!this.beverage.name) {
                 this.errors.name = 'Tên đồ uống không được để trống'
+                isValid = false
+            }
+            if (!this.beverage.listingPrice) {
+                this.errors.listingPrice = 'Giá niêm yết không được để trống'
+                isValid = false
+            }
+            if (!this.beverage.quantity) {
+                this.errors.quantity = 'Số lượng trên cửa hàng không được để trống'
+                isValid = false
+            }
+            if (!this.beverage.inventoryQuantity) {
+                this.errors.inventoryQuantity = 'Số lượng tồn kho không được để trống'
                 isValid = false
             }
             return isValid
@@ -127,7 +154,13 @@ export default {
                         beverageForm.append(key, this.beverage[key])
                     }
                     this.$request.put(`http://localhost:8080/admin/beverage/${this.beverage._id}`, beverageForm).then(res => {
-                        this.$router.push({name: 'admin.beverages'})
+                        this.$swal.fire({
+                        title: "Sửa thành công!",
+                        text: "Dữ liệu của bạn đã được chỉnh sửa!",
+                        icon: "success"
+                        }).then(() => {
+                            this.$router.push({name: 'admin.beverages'})
+                        })
                     })
                 }
                 else {
@@ -138,7 +171,13 @@ export default {
                     }
                     console.log(beverageForm)
                     this.$request.post('http://localhost:8080/admin/beverage/create', beverageForm).then(res => {
-                        this.$router.push({name: 'admin.beverages'})
+                        this.$swal.fire({
+                        title: "Thêm thành công!",
+                        text: "Dữ liệu của bạn đã được thêm!",
+                        icon: "success"
+                        }).then(() => {
+                            this.$router.push({name: 'admin.beverages'})
+                        })
                     })
                 }
             }

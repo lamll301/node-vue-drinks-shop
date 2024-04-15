@@ -8,6 +8,7 @@ const admin = [
                 name: "admin.home",
                 component: () => import("../pages/admin/AdminHome.vue"),
             },
+            // beverage
             {
                 path: "beverage",
                 name: "admin.beverages",
@@ -22,6 +23,22 @@ const admin = [
                 path: "beverage/edit/:id",
                 name: "admin.beverages.edit",
                 component: () => import("../pages/admin/beverages/BeverageForm.vue"),
+            },
+            // permission
+            {
+                path: "permission",
+                name: "admin.permissions",
+                component: () => import("../pages/admin/permissions/PermissionList.vue"),
+            },
+            {
+                path: "permission/edit/:id",
+                name: "admin.permissions.edit",
+                component: () => import("../pages/admin/permissions/PermissionForm.vue"),
+            },
+            {
+                path: "permission/create",
+                name: "admin.permissions.create",
+                component: () => import("../pages/admin/permissions/PermissionForm.vue"),
             },
         ]
     }

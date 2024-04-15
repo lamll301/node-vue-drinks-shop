@@ -12,43 +12,14 @@
             <div class="header-admin__dropdown">
                 <div class="header-admin__dropdown-content">
                     <div class="header-admin__dropdown-content-text">
-                        <i class="fa-solid fa-user header-admin__dropdown-icon"></i>
-                        Quản lý tài khoản
+                        <i class="fa-solid fa-users header-admin__dropdown-icon"></i>
+                        Quản lý phân quyền
                     </div>
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <ul class="header-admin__dropdown-menu">
-                    <li class="header-admin__dropdown-item"><a href="#">Tesdasdasdasdst1</a></li>
-                    <li class="header-admin__dropdown-item"><a href="#">Test2</a></li>
-                    <li class="header-admin__dropdown-item"><a href="#">Test2</a></li>
-                </ul>
-            </div>
-            <div class="header-admin__dropdown">
-                <div class="header-admin__dropdown-content">
-                    <div class="header-admin__dropdown-content-text">
-                        <i class="fa-solid fa-user header-admin__dropdown-icon"></i>
-                        Quản lý tài khoản
-                    </div>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </div>
-                <ul class="header-admin__dropdown-menu">
-                    <li class="header-admin__dropdown-item"><a href="#">Tesdasdasdasdst1</a></li>
-                    <li class="header-admin__dropdown-item"><a href="#">Test2</a></li>
-                    <li class="header-admin__dropdown-item"><a href="#">Test2</a></li>
-                </ul>
-            </div>
-            <div class="header-admin__dropdown">
-                <div class="header-admin__dropdown-content">
-                    <div class="header-admin__dropdown-content-text">
-                        <i class="fa-solid fa-user header-admin__dropdown-icon"></i>
-                        Quản lý tài khoản
-                    </div>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </div>
-                <ul class="header-admin__dropdown-menu">
-                    <li class="header-admin__dropdown-item"><a href="#">Tesdasdasdasdst1</a></li>
-                    <li class="header-admin__dropdown-item"><a href="#">Test2</a></li>
-                    <li class="header-admin__dropdown-item"><a href="#">Test2</a></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/permission">Tất cả phân quyền</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/permission/create">Thêm phân quyền</router-link></li>
                 </ul>
             </div>
             <div class="header-admin__label1">NHÂN VIÊN HỆ THỐNG</div>
@@ -63,21 +34,87 @@
                 <ul class="header-admin__dropdown-menu">
                     <li class="header-admin__dropdown-item"><router-link to="/admin/beverage">Tất cả đồ uống</router-link></li>
                     <li class="header-admin__dropdown-item"><router-link to="/admin/beverage/create">Thêm đồ uống</router-link></li>
-
                 </ul>
             </div>
             <div class="header-admin__dropdown">
                 <div class="header-admin__dropdown-content">
                     <div class="header-admin__dropdown-content-text">
                         <i class="fa-solid fa-user header-admin__dropdown-icon"></i>
-                        Quản lý tài khoản
+                        Quản lý DM đồ uống
                     </div>
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <ul class="header-admin__dropdown-menu">
-                    <li class="header-admin__dropdown-item"><a href="#">Tesdasdasdasdst1</a></li>
-                    <li class="header-admin__dropdown-item"><a href="#">Test2</a></li>
-                    <li class="header-admin__dropdown-item"><a href="#">Test2</a></li>
+                    <li class="header-admin__dropdown-item"><router-link to="">Tất cả DM đồ uống</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="">Thêm DM đồ uống</router-link></li>
+                </ul>
+            </div>
+            <div class="header-admin__dropdown">
+                <div class="header-admin__dropdown-content">
+                    <div class="header-admin__dropdown-content-text">
+                        <i class="fa-solid fa-user header-admin__dropdown-icon"></i>
+                        Quản lý nhà cung cấp
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <ul class="header-admin__dropdown-menu">
+                    <li class="header-admin__dropdown-item"><router-link to="">Tất cả nhà cung cấp</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="">Tạo nhà cung cấp</router-link></li>
+                </ul>
+            </div>
+            <div class="header-admin__dropdown">
+                <div class="header-admin__dropdown-content">
+                    <div class="header-admin__dropdown-content-text">
+                        <i class="fa-solid fa-user header-admin__dropdown-icon"></i>
+                        Quản lý tin tức
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <ul class="header-admin__dropdown-menu">
+                    <li class="header-admin__dropdown-item"><router-link to="">Tất cả tin tức</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="">Thêm tin tức</router-link></li>
+                </ul>
+            </div>
+            <div class="header-admin__dropdown">
+                <div class="header-admin__dropdown-content">
+                    <div class="header-admin__dropdown-content-text">
+                        <i class="fa-solid fa-user header-admin__dropdown-icon"></i>
+                        Quản lý khuyến mãi
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <ul class="header-admin__dropdown-menu">
+                    <li class="header-admin__dropdown-item"><router-link to="">Tất cả khuyến mãi</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="">Thêm khuyến mãi</router-link></li>
+                </ul>
+            </div>
+            <div class="header-admin__dropdown">
+                <div class="header-admin__dropdown-content">
+                    <div class="header-admin__dropdown-content-text">
+                        <i class="fa-solid fa-user header-admin__dropdown-icon"></i>
+                        Quản lý doanh thu
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <ul class="header-admin__dropdown-menu">
+                    <li class="header-admin__dropdown-item"><router-link to="">Tất cả doanh thu</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="">Tạo doanh thu</router-link></li>
+                </ul>
+            </div>
+            
+            <!-- Nhan vien ban hang -->
+            <div class="header-admin__label1">NHÂN VIÊN BÁN HÀNG</div>
+            <div class="header-admin__dropdown">
+                <div class="header-admin__dropdown-content">
+                    <div class="header-admin__dropdown-content-text">
+                        <i class="fa-solid fa-user header-admin__dropdown-icon"></i>
+                        Quản lý đơn hàng
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <ul class="header-admin__dropdown-menu">
+                    <li class="header-admin__dropdown-item"><router-link to="">Tất cả đơn hàng</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="">In hóa đơn</router-link></li>
                 </ul>
             </div>
         </header>

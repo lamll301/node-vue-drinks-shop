@@ -13,7 +13,7 @@
                 <table class="table admin-content__table-main">
                     <thead class="admin-content__table-main-head">
                         <tr class="admin-content__table-first-row">
-                            <th scope="col">ID</th>
+                            <th scope="col">#</th>
                             <th scope="col">Tên</th>
                             <th scope="col">Giá niêm yết</th>
                             <th scope="col">Trạng thái</th>
