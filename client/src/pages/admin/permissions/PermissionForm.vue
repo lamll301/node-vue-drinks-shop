@@ -16,7 +16,7 @@
                     <div v-if="this.$route.params.id" class="mb-16">
                         <h3 class="admin-content__form-text">Mã phân quyền</h3>
                         <div class="valid-elm input-group">
-                            <input type="text" class="fs-16 form-control" readonly v-model="permission._id">
+                            <input type="text" class="fs-16 form-control" disabled v-model="permission._id">
                         </div>
                     </div>
                     <div class="mb-16">

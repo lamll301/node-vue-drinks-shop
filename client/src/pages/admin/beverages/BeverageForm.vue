@@ -117,19 +117,19 @@ export default {
                 inventoryQuantity: ''
             }
             if (!this.beverage.name) {
-                this.errors.name = 'Tên đồ uống không được để trống'
+                this.errors.name = 'Tên đồ uống không được để trống.'
                 isValid = false
             }
             if (!this.beverage.listingPrice) {
-                this.errors.listingPrice = 'Giá niêm yết không được để trống'
+                this.errors.listingPrice = 'Giá niêm yết không được để trống.'
                 isValid = false
             }
             if (!this.beverage.quantity) {
-                this.errors.quantity = 'Số lượng trên cửa hàng không được để trống'
+                this.errors.quantity = 'Số lượng trên cửa hàng không được để trống.'
                 isValid = false
             }
             if (!this.beverage.inventoryQuantity) {
-                this.errors.inventoryQuantity = 'Số lượng tồn kho không được để trống'
+                this.errors.inventoryQuantity = 'Số lượng tồn kho không được để trống.'
                 isValid = false
             }
             return isValid
