@@ -51,6 +51,22 @@ const admin = [
                 name: "admin.accounts.edit",
                 component: () => import("../pages/admin/accounts/AccountForm.vue"),
             },
+            // supplier
+            {
+                path: "supplier",
+                name: "admin.suppliers",
+                component: () => import("../pages/admin/suppliers/SupplierList.vue"),
+            },
+            {
+                path: "supplier/edit/:id",
+                name: "admin.suppliers.edit",
+                component: () => import("../pages/admin/suppliers/SupplierForm.vue"),
+            },
+            {
+                path: "supplier/create",
+                name: "admin.suppliers.create",
+                component: () => import("../pages/admin/suppliers/SupplierForm.vue"),
+            },
         ]
     }
 ]

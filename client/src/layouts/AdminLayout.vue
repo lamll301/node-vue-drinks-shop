@@ -70,8 +70,8 @@
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <ul class="header-admin__dropdown-menu">
-                    <li class="header-admin__dropdown-item"><router-link to="">Tất cả nhà cung cấp</router-link></li>
-                    <li class="header-admin__dropdown-item"><router-link to="">Tạo nhà cung cấp</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/supplier">Tất cả nhà cung cấp</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/supplier/create">Thêm nhà cung cấp</router-link></li>
                 </ul>
             </div>
             <div class="header-admin__dropdown">
