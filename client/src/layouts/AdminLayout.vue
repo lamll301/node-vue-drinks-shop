@@ -22,6 +22,18 @@
                     <li class="header-admin__dropdown-item"><router-link to="/admin/permission/create">Thêm phân quyền</router-link></li>
                 </ul>
             </div>
+            <div class="header-admin__dropdown">
+                <div class="header-admin__dropdown-content">
+                    <div class="header-admin__dropdown-content-text">
+                        <i class="fa-solid fa-user-tie header-admin__dropdown-icon"></i>
+                        Quản lý tài khoản
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <ul class="header-admin__dropdown-menu">
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/account">Tất cả tài khoản</router-link></li>
+                </ul>
+            </div>
             <div class="header-admin__label1">NHÂN VIÊN HỆ THỐNG</div>
             <div class="header-admin__dropdown">
                 <div class="header-admin__dropdown-content">

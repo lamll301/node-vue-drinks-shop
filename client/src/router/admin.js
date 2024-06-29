@@ -40,6 +40,17 @@ const admin = [
                 name: "admin.permissions.create",
                 component: () => import("../pages/admin/permissions/PermissionForm.vue"),
             },
+            // account
+            {
+                path: "account",
+                name: "admin.accounts",
+                component: () => import("../pages/admin/accounts/AccountList.vue"),
+            },
+            {
+                path: "account/edit/:id",
+                name: "admin.accounts.edit",
+                component: () => import("../pages/admin/accounts/AccountForm.vue"),
+            },
         ]
     }
 ]
