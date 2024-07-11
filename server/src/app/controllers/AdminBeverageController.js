@@ -27,7 +27,7 @@ class AdminBeverageController {
             }
             beverageObj.imageName = req.file.filename
         }
-        // res.send(beverageObj)
+        console.log(beverageObj)
         const beverage = new Beverage(beverageObj);
         await beverage.save()
             .then(() => res.send('success'))

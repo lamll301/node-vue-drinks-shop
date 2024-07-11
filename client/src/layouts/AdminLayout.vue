@@ -57,8 +57,8 @@
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <ul class="header-admin__dropdown-menu">
-                    <li class="header-admin__dropdown-item"><router-link to="">Tất cả DM đồ uống</router-link></li>
-                    <li class="header-admin__dropdown-item"><router-link to="">Thêm DM đồ uống</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/category">Tất cả DM đồ uống</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/category/create">Thêm DM đồ uống</router-link></li>
                 </ul>
             </div>
             <div class="header-admin__dropdown">
@@ -83,8 +83,8 @@
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <ul class="header-admin__dropdown-menu">
-                    <li class="header-admin__dropdown-item"><router-link to="">Tất cả tin tức</router-link></li>
-                    <li class="header-admin__dropdown-item"><router-link to="">Thêm tin tức</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/report">Tất cả tin tức</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/report/create">Thêm tin tức</router-link></li>
                 </ul>
             </div>
             <div class="header-admin__dropdown">

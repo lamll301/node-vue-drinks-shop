@@ -317,6 +317,7 @@
 .admin-page {
     display: flex;
     justify-content: center;
+    min-height: 800px;
 }
 .admin-background {
     width: 100%;
@@ -553,6 +554,18 @@
 .admin-content__card-link p {
     margin-bottom: 4px;
     margin-right: 4px;
+}
+/* admin image container */
+.admin-content__image-container {
+    position: relative;
+    display: inline-block;
+}
+.admin-content__image-container img {
+
+}
+.admin-content__image-container button {
+    position: absolute;
+    right: 0;
 }
 /* site template */
 .header__underline {

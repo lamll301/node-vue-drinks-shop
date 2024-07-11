@@ -63,7 +63,7 @@ export default {
         },
         getImgPath(imgName) {
             try {
-                return require(`../../../assets/img/products/${imgName}`)
+                return require(`../../../assets/img/data/${imgName}`)
             }
             catch {
                 return require(`../../../assets/img/no-img-available.jpg`)

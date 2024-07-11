@@ -67,6 +67,38 @@ const admin = [
                 name: "admin.suppliers.create",
                 component: () => import("../pages/admin/suppliers/SupplierForm.vue"),
             },
+            // category
+            {
+                path: "category",
+                name: "admin.categories",
+                component: () => import("../pages/admin/categories/CategoryList.vue"),
+            },
+            {
+                path: "category/edit/:id",
+                name: "admin.categories.edit",
+                component: () => import("../pages/admin/categories/CategoryForm.vue"),
+            },
+            {
+                path: "category/create",
+                name: "admin.categories.create",
+                component: () => import("../pages/admin/categories/CategoryForm.vue"),
+            },
+            // report
+            {
+                path: "report",
+                name: "admin.reports",
+                component: () => import("../pages/admin/reports/ReportList.vue"),
+            },
+            {
+                path: "report/edit/:id",
+                name: "admin.reports.edit",
+                component: () => import("../pages/admin/reports/ReportForm.vue"),
+            },
+            {
+                path: "report/create",
+                name: "admin.reports.create",
+                component: () => import("../pages/admin/reports/ReportForm.vue"),
+            },
         ]
     }
 ]

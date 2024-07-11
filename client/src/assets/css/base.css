@@ -74,9 +74,13 @@ html {
 .mb-16 {
     margin-bottom: 16px !important;
 }
-.height-105 {
-    height: 105px !important;
+.ml-16 {
+    margin-left: 16px !important;
 }
+.mr-16 {
+    margin-right: 16px !important;
+}
+
 .lh-30 {
     line-height: 30px !important;
 }
@@ -135,4 +139,30 @@ html {
 .button:hover {
     color: var(--white-color);
     background-color: #FDC040;
+}
+/* image & text area & pagination */
+.height-width-200 {
+    height: 200px;
+    width: 200px;
+}
+.height-105 {
+    height: 105px !important;
+}
+.height-205 {
+    height: 205px !important;
+}
+.custom-page-link {
+    font-size: 1.6rem;
+    height: 3.4rem;
+    width: 3.4rem;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.custom-page-item {
+    margin-right: 12px;
+}
+.custom-pagination {
+    justify-content: center;
 }

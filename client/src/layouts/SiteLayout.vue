@@ -186,12 +186,12 @@
                     <li class="header-function-bar-item">
                         <a href="" class="header-function-bar-name">
                             <i class="header-function-bar-name-icon-home fa-solid fa-house"></i>
-                            Trang chủ
+                            TRANG CHỦ
                         </a>
                     </li>
                     <li class="header-function-bar-item header-function-bar-menu-block">
                         <a href="" class="header-function-bar-name">
-                            Menu
+                            MENU
                             <i class="header-function-bar-name-icon fa-solid fa-chevron-down"></i>
                         </a>
                         <div class="header-function-bar-menu">
@@ -221,7 +221,10 @@
                         </a>
                     </li>
                     <li class="header-function-bar-item header-function-bar-item--active">
-                        <a href="" class="header-function-bar-name">Liên hệ</a>
+                        <a href="" class="header-function-bar-name">TƯ VẤN</a>
+                    </li>
+                    <li class="header-function-bar-item">
+                        <a href="" class="header-function-bar-name">LIÊN HỆ</a>
                     </li>
                 </ul>
             </div>
