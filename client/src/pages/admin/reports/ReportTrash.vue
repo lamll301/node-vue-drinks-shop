@@ -1,16 +1,17 @@
 <template>
     <AdminHeightWrapperComponent :addHeight="100" contentSelector=".admin-content__table">
         <div class="admin-content__heading">
-            <h3>Quản lý tin tức</h3>
+            <h3>Quản lý thùng rác</h3>
             <router-link to="/admin/report/create" class="admin-content__create">Thêm tin tức</router-link>
         </div>
         <!-- admin table -->
         <div class="admin-content__table">
             <div class="admin-content__header d-flex align-items-center">
-                <h4>Tất cả tin tức</h4>
+                <h4>Tin tức đã xóa</h4>
                 <select id="selectCheckboxAction" class="form-select admin-content__checkbox-select-all-opts">
                     <option value="" selected>-- Hành động --</option>
-                    <option value="delete">Xóa</option>
+                    <option value="forceDelete">Xóa vĩnh viễn</option>
+                    <option value="restore">Khôi phục</option>
                 </select>
                 <button class="fs-16 btn btn-primary disabled" id="btnCheckboxSubmit" @click="btnCheckboxSubmitClicked()">Thực hiện</button>
             </div>
@@ -23,23 +24,19 @@
                         <th scope="col">ID
                             <SortComponent field="_id" :sort="sort"/>
                         </th>
-                        <th scope="col">
-                            Tiêu đề
+                        <th scope="col">Tiêu đề
                             <SortComponent field="title" :sort="sort"/>
                         </th>
                         <th scope="col">Tác giả
                             <SortComponent field="author" :sort="sort"/>
                         </th>
-                        <th scope="col">Ngày tạo
-                            <SortComponent field="createdAt" :sort="sort"/>
-                        </th>
-                        <th scope="col">Ngày cập nhật
-                            <SortComponent field="updatedAt" :sort="sort"/>
+                        <th scope="col">Ngày xóa
+                            <SortComponent field="deletedAt" :sort="sort"/>
                         </th>
                         <th scope="col">Trạng thái
                             <SortComponent field="status" :sort="sort"/>
                         </th>
-                        <th scope="col" class="col-2"></th>
+                        <th scope="col" class="col-3"></th> 
                     </tr>
                 </thead>
                 <tbody class="admin-content__table-main-body">
@@ -51,31 +48,25 @@
                             <th>{{ report._id }}</th>
                             <td>{{ report.title }}</td>
                             <td>{{ report.author }}</td>
-                            <td>{{ handleDate(report.createdAt) }}</td>
-                            <td>{{ handleDate(report.updatedAt) }}</td>
+                            <td>{{ handleDate(report.deletedAt) }}</td>
                             <td>{{ statusOptions[report.status] || report.status }}</td>
                             <td>
-                                <router-link :to="'/admin/report/edit/' + report._id" class="fs-16 btn btn-primary">Sửa</router-link>&nbsp;
-                                <button class="fs-16 btn btn-danger" @click="onDelete(report._id)">Xóa</button>
+                                <button class="fs-16 btn btn-primary" @click="onRestore(report._id)">Khôi phục</button>&nbsp;
+                                <button class="fs-16 btn btn-danger" @click="onDelete(report._id)">Xóa vĩnh viễn</button>
                             </td>
                         </tr>
                     </template>
                     <template v-else>
                         <tr>
-                            <td colspan="8" class="text-center">
-                                Bạn chưa có tin tức nào.
-                                <router-link to="/admin/report/create">Thêm tin tức</router-link>
+                            <td colspan="7" class="text-center">
+                                Thùng rác trống.
+                                <router-link to="/admin/report">Danh sách tin tức</router-link>
                             </td>
                         </tr>
                     </template>
                 </tbody>
             </table>
-            <div class="admin-content__table-footer">
-                <router-link to="/admin/report/trash">Thùng rác
-                    <i class="fa-solid fa-trash admin-content__trash"></i>
-                </router-link>
-                <span class="header__notice admin-content__trash-notice">{{ deletedCount }}</span>
-            </div>
+            <div class="admin-content__table-footer"></div>
         </div>
         <PaginationComponent :totalPages="totalPages" :currentPage="currentPage"/>
     </AdminHeightWrapperComponent>
@@ -88,7 +79,7 @@ import AdminHeightWrapperComponent from '@/components/AdminHeightWrapperComponen
 import SortComponent from '@/components/SortComponent.vue'
 
 export default {
-    name: 'ReportList',
+    name: 'ReportTrash',
     components: {
         PaginationComponent,
         AdminHeightWrapperComponent,
@@ -99,15 +90,12 @@ export default {
     },
     data() {
         return {
-            // server
-            reports: [],
-            deletedCount: 0,    // số lượng obj trong thùng rác
-            totalPages: 0,
+            reports: [],    // data
             statusOptions: {},
+            totalPages: 0,
             sort: {},
-            // client
-            currentPage: 1,
-            reportIds: [],
+            reportIds: [],  // var
+            currentPage: 1
         }
     },
     created() {
@@ -115,8 +103,7 @@ export default {
     },
     methods: {
         getAll() {
-            const params = new URLSearchParams(this.$route.query).toString()
-            this.$request.get(`http://localhost:8080/admin/report?${params}`).then(res => {
+            this.$request.get(`http://localhost:8080/admin/report/trash?page=${this.$route.query.page}`).then(res => {
                 this.reports = res.data.reports.map(report => {
                     return {
                         ...report,
@@ -125,7 +112,6 @@ export default {
                 })
                 this.statusOptions = res.data.REPORT_STATUS_OPTIONS
                 this.totalPages = res.data.totalPages
-                this.deletedCount = res.data.deletedCount
                 this.sort = res.data._sort
                 this.currentPage = parseInt(this.$route.query.page) || 1
             })
@@ -133,6 +119,7 @@ export default {
         onDelete(reportId) {
             this.$swal.fire({
             title: "Bạn chắc chắn?",
+            text: "Bạn sẽ không thể khôi phục lại dữ liệu!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -140,7 +127,7 @@ export default {
             confirmButtonText: "Có, tôi muốn xóa!"
             }).then((result) => {
             if (result.isConfirmed) {
-                this.$request.delete(`http://localhost:8080/admin/report/${reportId}`).then(() => {
+                this.$request.delete(`http://localhost:8080/admin/report/${reportId}/force`).then(() => {
                     this.$swal.fire({
                     title: "Xóa thành công!",
                     text: "Dữ liệu của bạn đã được xóa.",
@@ -153,16 +140,24 @@ export default {
             }
             });
         },
-        handleTag(tagArray) {      // chuyển string[] => string
-            if (!tagArray) {
-                return
+        onRestore(reportId) {
+            this.$request.patch(`http://localhost:8080/admin/report/${reportId}/restore`).then(() => {
+                this.$swal.fire({
+                title: "Khôi phục thành công!",
+                text: "Dữ liệu của bạn đã được khôi phục!",
+                icon: "success"
+                }).then(() => {
+                    this.getAll()
+                })
+            })
+        },
+        handleTag(array) {      // chuyển string[] => string
+            if (Array.isArray(array)) {
+                return array.join(', ')
             }
-            return tagArray.join(', ')
+            return ''
         },
         handleDate(dateString) {
-            if (!dateString) {
-                return
-            }
             return dateString.split('T')[0]
         },
         // checkbox
@@ -234,10 +229,10 @@ export default {
                 icon: "success"
                 }).then(() => {
                     this.getAll()
-                    this.$refs.checkboxAll.checked = false
+                    this.$refs.checkboxAll.checked = false;
                 })
             })
-        },
+        }
     }
 }
 </script>

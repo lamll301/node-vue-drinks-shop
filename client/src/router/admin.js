@@ -90,6 +90,11 @@ const admin = [
                 component: () => import("../pages/admin/reports/ReportList.vue"),
             },
             {
+                path: "report/trash",
+                name: "admin.reports.trash",
+                component: () => import("../pages/admin/reports/ReportTrash.vue"),
+            },
+            {
                 path: "report/edit/:id",
                 name: "admin.reports.edit",
                 component: () => import("../pages/admin/reports/ReportForm.vue"),

@@ -555,6 +555,24 @@
     margin-bottom: 4px;
     margin-right: 4px;
 }
+.admin-content__trash {
+    margin-left: 2px;
+    font-size: 1.6rem;
+    color: var(--black-color);
+    position: relative;
+}
+.admin-content__trash-notice {
+    margin-left: 93px;
+    margin-bottom: 12px;
+}
+.admin-content__checkbox {
+    margin-top: 11px;
+}
+.admin-content__checkbox-select-all-opts {
+    width: 140px;
+    margin-right: 20px;
+    font-size: 14px;
+}
 /* admin image container */
 .admin-content__image-container {
     position: relative;

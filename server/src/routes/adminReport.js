@@ -18,11 +18,17 @@ const adminReportController = require('../app/controllers/AdminReportController'
 // router add and remove image
 router.put('/:id/addImage', upload.single('image'), adminReportController.addImage)
 router.put('/:id/removeImage', adminReportController.removeImage)
-// 
-router.get('/:id', adminReportController.detail)    
-router.put('/:id', adminReportController.update)
+// trash
+router.get('/trash', adminReportController.trash)
+router.patch('/:id/restore', adminReportController.restore)
+router.delete('/:id/force', adminReportController.forceDelete)
+// checkbox
+router.post('/handle-form-actions', adminReportController.handleFormActions)
+
+router.put('/:id', upload.single('image'), adminReportController.update)
 router.post('/create', upload.single('image'), adminReportController.create)     
-router.delete('/:id', adminReportController.delete)     
+router.delete('/:id', adminReportController.delete)
+router.get('/:id', adminReportController.detail)
 router.get('/', adminReportController.show)     
 
 module.exports = router
