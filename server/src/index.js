@@ -5,6 +5,8 @@ const methodOverride = require('method-override')
 const route = require('./routes')
 const db = require('./config/db')
 
+const SortMiddleware = require('./app/middlewares/SortMiddleware')
+
 // Connect db
 db.connect()
 
@@ -19,6 +21,10 @@ app.use(express.json())
 
 app.use(methodOverride('_method'))
 app.use(cors())
+
+// custom middlewares
+app.use(SortMiddleware)
+
 // HTTP logger
 // app.use(morgan('combined'))
 

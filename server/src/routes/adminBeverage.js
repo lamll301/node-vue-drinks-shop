@@ -5,7 +5,7 @@ const multer  = require('multer')
 // const storage = multer.memoryStorage();      //luu luon len db
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, '../client/src/assets/img/products/')
+        cb(null, '../client/src/assets/img/data/')
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)

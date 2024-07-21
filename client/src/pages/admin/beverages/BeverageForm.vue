@@ -169,7 +169,6 @@ export default {
                     for (let key in this.beverage) {
                         beverageForm.append(key, this.beverage[key])
                     }
-                    console.log(beverageForm)
                     this.$request.post('http://localhost:8080/admin/beverage/create', beverageForm).then(res => {
                         this.$swal.fire({
                         title: "Thêm thành công!",
