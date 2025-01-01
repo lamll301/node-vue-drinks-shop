@@ -8,7 +8,6 @@
 
 <script>
 export default {
-    name: 'AdminContentWrapper',
     props: {
         addHeight: {
             type: Number,
@@ -22,24 +21,37 @@ export default {
     data() {
         return {
             adminPageHeight: 'auto',
+            resizeObserver: null
         }
     },
-    mounted() {     // được gọi khi component gán vào DOM và DOM sẵn sàng
-        this.setAdminPageHeight()
+    mounted() {
+        this.updateAdminPageHeight();
+        this.setupResizeObserver();
     },
-    updated() {
-        this.setAdminPageHeight()
+    unmounted() {
+        if (this.resizeObserver) {
+            this.resizeObserver.disconnect();
+        }
     },
     methods: {
-        setAdminPageHeight() {
+        updateAdminPageHeight() {
             this.$nextTick(() => {
-                const adminContentForm = document.querySelector(this.contentSelector)
+                const adminContentForm = document.querySelector(this.contentSelector);
                 if (adminContentForm) {
                     const adminContentFormHeight = adminContentForm.clientHeight;
                     this.adminPageHeight = `${adminContentFormHeight + this.addHeight}px`;
                 }
-            })
+            });
         },
-    },
+        setupResizeObserver() {
+            const adminContentForm = document.querySelector(this.contentSelector);
+            if (adminContentForm) {
+                this.resizeObserver = new ResizeObserver(() => {
+                    this.updateAdminPageHeight();
+                });
+                this.resizeObserver.observe(adminContentForm);
+            }
+        }
+    }
 }
 </script>

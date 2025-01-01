@@ -1,9 +1,8 @@
 <template>
-    <AdminContentWrapper :addHeight="50" contentSelector=".admin-content__form">
+    <AdminHeightWrapperComponent :addHeight="50" contentSelector=".admin-content__form">
         <div class="admin-content__heading">
             <h3>Quản lý tin tức</h3>
         </div>
-        <!-- admin form -->
         <div class="admin-content__form">
             <div class="admin-content__header">
                 <h4 v-if="this.$route.params.id">Form sửa tin tức</h4>
@@ -52,26 +51,23 @@
                 <div class="mb-16">
                     <h3 class="admin-content__form-text">Ảnh</h3>
                     <div class="valid-elm input-group">
-                        <input type="file" class="fs-16 lh-30 form-control" name="image" accept="image/*" @change="handleImage($event)">
+                        <input type="file" class="fs-16 lh-30 form-control" name="image" accept="image/*" @change="handleImageChange($event)">
                         <button v-if="this.$route.params.id" type="button" class="btn btn-light fs-16 btn" @click="addImage()">Thêm ảnh</button>
                     </div>
                 </div>
                 <div>
                     <div v-for="image in report.images" :key="image._id" class="admin-content__image-container mr-16 mb-16">
                         <button type="button" class="btn btn-danger" @click="removeImage(image._id)">X</button>
-                        <img v-bind:src="getImageSrc(image.name)" class="img-thumbnail height-width-200" alt="">
+                        <img v-bind:src="getImagePath(image.name, 'error.jpg')" class="img-thumbnail admin-content__image-report" alt="">
                     </div>
                 </div>
                 <div class="mb-16">
-                    <h3 class="admin-content__form-text">Tags</h3>
+                    <h3 class="admin-content__form-text admin-content__tooltip">Tags
+                        <i class="fa-solid fa-circle-exclamation dark-red"></i>
+                        <span class="admin-content__tooltip-text">Lưu ý khi nhập mỗi tag cần cách nhau bằng một dấu chấm phẩy</span>
+                    </h3>
                     <div class="valid-elm input-group">
-                        <input type="text" class="fs-16 form-control" placeholder="Nhập tags" v-model="report.tags">
-                    </div>
-                </div>
-                <div class="mb-16">
-                    <h3 class="admin-content__form-text">Link</h3>
-                    <div class="valid-elm input-group">
-                        <input type="text" class="fs-16 form-control" placeholder="Nhập đường dẫn tới bài viết" v-model="report.link">
+                        <input type="text" class="fs-16 form-control" placeholder="Nhập các thẻ tag" v-model="report.tags">
                     </div>
                 </div>
                 <div class="mb-16" v-if="this.$route.params.id">
@@ -89,16 +85,17 @@
             </div>
             </form>
         </div>
-    </AdminContentWrapper>
+    </AdminHeightWrapperComponent>
 </template>
 
 <script>
-import AdminContentWrapper from '@/components/AdminHeightWrapperComponent.vue'
+import { arrayToString, getImagePath } from '@/helpers/helpers.js'
+import AdminHeightWrapperComponent from '@/components/AdminHeightWrapperComponent.vue'
 
 export default {
     name: 'ReportForm',
     components: {
-        AdminContentWrapper
+        AdminHeightWrapperComponent
     },
     data() {
         return {
@@ -116,6 +113,7 @@ export default {
         }
     },
     methods: {
+        arrayToString, getImagePath,
         validate() {
             let isValid = true
             this.errors = {
@@ -134,14 +132,12 @@ export default {
         getReport(reportId) {
             this.$request.get(`http://localhost:8080/admin/report/${reportId}`).then(res => {
                 this.report = res.data.report
-                this.report.tags = this.handleTag(this.report.tags)
+                this.report.tags = this.arrayToString(this.report.tags)
                 this.statusOptions = res.data.REPORT_STATUS_OPTIONS
             })
         },
         save() {
-            if (!this.validate()) {
-                return;
-            }
+            if (!this.validate()) return
             // do formdata chỉ lưu string nên xử lý string phía server
             const reportForm = new FormData()
             for (let k in this.report) {
@@ -178,7 +174,7 @@ export default {
                 for (let k in this.report) {
                     reportForm.append(k, this.report[k])
                 }
-                this.$request.put(`http://localhost:8080/admin/report/${this.report._id}/addImage`, reportForm).then(() => {
+                this.$request.patch(`http://localhost:8080/admin/report/${this.report._id}/addImage`, reportForm).then(() => {
                     this.$swal.fire({
                     title: "Thêm thành công!",
                     text: "Dữ liệu của bạn đã được thêm!",
@@ -190,8 +186,9 @@ export default {
             }
         },
         removeImage(imageId) {
+            console.log(imageId, this.report._id)
             if (this.report._id && imageId) {
-                this.$request.put(`http://localhost:8080/admin/report/${this.report._id}/removeImage`, { imageId }).then(() => {
+                this.$request.patch(`http://localhost:8080/admin/report/${this.report._id}/removeImage`, { imageId }).then(() => {
                     this.$swal.fire({
                     title: "Xóa thành công!",
                     text: "Dữ liệu của bạn đã được xóa!",
@@ -202,25 +199,9 @@ export default {
                 })
             }
         },
-        //
-        handleImage(event) {
-            let img = event.target.files[0]
-            if (img) {
-                this.report.image = img
-            }
-        },
-        getImageSrc(imageName) {
-            try {
-                return require(`@/assets/img/data/${imageName}`)
-            } catch {
-                return require('@/assets/img/error.jpg')
-            }
-        },
-        handleTag(array) {      // chuyển string[] => string
-            if (Array.isArray(array)) {
-                return array.join(', ');
-            }
-            return '';
+        handleImageChange(event) {
+            let image = event.target.files[0]
+            if (image) this.report.image = image
         },
     }
 }

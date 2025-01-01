@@ -19,12 +19,29 @@ const Report = new Schema({
     highlight: String,      // phần muốn hiển thị lên mục quảng cáo, mô tả ngắn gọn
     content: String,
     tags: [String],
-    link: String,
     status: { type: String, enum: ['draft', 'published'], default: 'draft' },       // bản nháp, đã xuất bản
 }, {
     _id: false,
     timestamps: true // Thêm trường createdAt và updatedAt
 });
+
+// custom statics
+Report.statics.getSearchQuery = function (req) {
+    let key = req.query.key ? req.query.key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : ''     // key = \ error
+    return key ? {
+        $or: [
+            { title: { $regex: key, $options: 'i' } },
+            { author: { $regex: key, $options: 'i' } }
+        ]
+    } : {}
+}
+Report.statics.searchable = function (req, includeDeleted = false) {
+    if (req.query.key) {
+        const searchQuery = this.getSearchQuery(req)
+        return includeDeleted ? this.findWithDeleted({ ...searchQuery, deleted: true }) : this.find(searchQuery)
+    }
+    return includeDeleted ? this.findWithDeleted({ deleted: true }) : this.find({})
+}
 // custom query helpers
 Report.query.sortable = function (req) {
     if (req.query.hasOwnProperty('_sort')) {
@@ -45,10 +62,9 @@ Report.plugin(mongooseDelete, {
 
 module.exports = mongoose.model('Report', Report);
 
-// const ReportModel = mongoose.model('Report', Report);
+// const FakeData = mongoose.model('Report', Report);
 // for (let i = 0; i < 20; i++) {
-//     ReportModel.create({
+//     FakeData.create({
 //         title: 'test' + i,
-//         author: 'Admin',
 //     });
 // }

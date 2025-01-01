@@ -1,7 +1,7 @@
 <template>
     <nav>
         <ul class="pagination custom-pagination">
-            <li class="page-item custom-page-item" :class="{ disabled: currentPage <= 1 }">
+            <li class="page-item custom-page-item" :class="{ disabled: currentPage <= 1 || totalPages <= 1 }">
                 <router-link :to="previous" class="page-link custom-page-link">
                 <span aria-hidden="true">&laquo;</span>
                 </router-link>
@@ -15,7 +15,7 @@
                     {{ page }}
                 </router-link>
             </li>
-            <li class="page-item custom-page-item" :class="{ disabled: currentPage >= totalPages }">
+            <li class="page-item custom-page-item" :class="{ disabled: currentPage >= totalPages || totalPages <= 1 }">
                 <router-link :to="next" class="page-link custom-page-link">
                 <span aria-hidden="true">&raquo;</span>
                 </router-link>
@@ -32,7 +32,6 @@ export default {
     },
     computed: {     // tự động cập nhật khi totalPages thay đổi
         paginationRange() {
-            console.log(this.currentPage)
             let page = parseInt(this.$route.query.page) || 1
             if (!this.totalPages) return [1];
             page = page > this.totalPages ? this.totalPages : page

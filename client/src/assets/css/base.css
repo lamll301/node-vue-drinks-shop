@@ -4,37 +4,33 @@
     --text-color: #333;
     --primary-color: #3bb77e;
     --primary-box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.05);
-    --colorTextBlackSoft: rgba(0, 0, 0, .58);
-    --colorBlack10: rgba(0, 0, 0, .1);
-    --iconTransition: all ease-out 0.2s;
-    --colorTextBlackSoft: rgba(0, 0, 0, .58);
-    --text_Size2: 1.4rem;
 }
-
 * {
     box-sizing: inherit;
 }
-
 html {
     font-size: 62.5%;
     line-height: 1.6rem;
     font-family: "Roboto", sans-serif;
     box-sizing: border-box;
 }
-
 .grid {
     width: 1495.2px;
+    /* width: 1440px; */
     max-width: 100%;
     margin: 0 auto;
 }
-
 .grid__full-width {
     width: 100%;
 }
-
 .grid__row {
     display: flex;
     flex-wrap: wrap;
+}
+.grid__column-2-4 {
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 20%;    
 }
 /* Modal */
 
@@ -70,6 +66,9 @@ html {
 }
 .fs-16 {
     font-size: 16px !important;
+}
+.fs-14 {
+    font-size: 14px !important;
 }
 .mb-16 {
     margin-bottom: 16px !important;
@@ -140,6 +139,12 @@ html {
     color: var(--white-color);
     background-color: #FDC040;
 }
+.btn-prev {
+    margin-left: 4px;
+}
+.btn-next {
+    margin-right: 4px;
+}
 /* image & text area & pagination */
 .height-width-200 {
     height: 200px;
@@ -165,4 +170,69 @@ html {
 }
 .custom-pagination {
     justify-content: center;
+}
+/* tabs */
+.tabs {
+    list-style: none;
+    display: flex;
+}
+.tabs-item {
+    margin-right: 32px;
+    padding: 12px 0;
+    position: relative;
+}
+.tabs-item:hover {
+    cursor: pointer;
+    border-bottom: 4px solid #00754a;
+}
+.tabs-item-avtive {
+    border-bottom: 4px solid #00754a;
+}
+.tabs-item-text {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: rgb(0, 0, 0, 0.7);
+}
+/* swiper */
+.swiper-list {
+    padding: 0;
+    display: flex;
+    transition: transform 0.5s ease;
+}
+.swiper-item {
+    margin-left: 2px;
+    margin-right: 6px;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
+}
+.swiper-btn-2 {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    z-index: 997;
+}
+.swiper-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 0px 3px 12px 0px rgb(0, 0, 0, 30%);
+    background-color: var(--white-color);
+}
+.swiper-btn:hover {
+    cursor: pointer;
+}
+.swiper-btn-icon {
+    font-size: 1.2rem;
+}
+.swiper-btn-prev {
+    position: absolute;
+    left: 0;
+}
+.swiper-btn-next {
+    position: absolute;
+    right: 0;
 }

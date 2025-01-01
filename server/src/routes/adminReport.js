@@ -16,8 +16,8 @@ const upload = multer({ storage: storage });
 const adminReportController = require('../app/controllers/AdminReportController')
 
 // router add and remove image
-router.put('/:id/addImage', upload.single('image'), adminReportController.addImage)
-router.put('/:id/removeImage', adminReportController.removeImage)
+router.patch('/:id/addImage', upload.single('image'), adminReportController.addImage)
+router.patch('/:id/removeImage', adminReportController.removeImage)
 // trash
 router.get('/trash', adminReportController.trash)
 router.patch('/:id/restore', adminReportController.restore)

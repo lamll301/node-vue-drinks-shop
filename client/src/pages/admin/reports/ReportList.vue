@@ -51,8 +51,9 @@
                             <th>{{ report._id }}</th>
                             <td>{{ report.title }}</td>
                             <td>{{ report.author }}</td>
-                            <td>{{ handleDate(report.createdAt) }}</td>
-                            <td>{{ handleDate(report.updatedAt) }}</td>
+                            <!-- <td>{{ arrayToString(report.tags) }}</td> -->
+                            <td>{{ convertDate(report.createdAt) }}</td>
+                            <td>{{ convertDate(report.updatedAt) }}</td>
                             <td>{{ statusOptions[report.status] || report.status }}</td>
                             <td>
                                 <router-link :to="'/admin/report/edit/' + report._id" class="fs-16 btn btn-primary">Sửa</router-link>&nbsp;
@@ -83,6 +84,7 @@
 
 <script>
 /* eslint-disable */
+import { convertDate, arrayToString } from '@/helpers/helpers.js'
 import PaginationComponent from '@/components/PaginationComponent.vue'
 import AdminHeightWrapperComponent from '@/components/AdminHeightWrapperComponent.vue'
 import SortComponent from '@/components/SortComponent.vue'
@@ -99,30 +101,24 @@ export default {
     },
     data() {
         return {
-            // server
             reports: [],
             deletedCount: 0,    // số lượng obj trong thùng rác
             totalPages: 0,
-            statusOptions: {},
             sort: {},
-            // client
             currentPage: 1,
             reportIds: [],
+            statusOptions: {},
         }
     },
     created() {
         this.getAll()
     },
     methods: {
+        convertDate, arrayToString,
         getAll() {
             const params = new URLSearchParams(this.$route.query).toString()
             this.$request.get(`http://localhost:8080/admin/report?${params}`).then(res => {
-                this.reports = res.data.reports.map(report => {
-                    return {
-                        ...report,
-                        tags: this.handleTag(report.tags)
-                    }
-                })
+                this.reports = res.data.reports
                 this.statusOptions = res.data.REPORT_STATUS_OPTIONS
                 this.totalPages = res.data.totalPages
                 this.deletedCount = res.data.deletedCount
@@ -153,23 +149,11 @@ export default {
             }
             });
         },
-        handleTag(tagArray) {      // chuyển string[] => string
-            if (!tagArray) {
-                return
-            }
-            return tagArray.join(', ')
-        },
-        handleDate(dateString) {
-            if (!dateString) {
-                return
-            }
-            return dateString.split('T')[0]
-        },
         // checkbox
         onCheckboxAllChange(event) {
-            let isChecked = event.target.checked
             let checkboxes = this.$refs.checkboxes
             if (!checkboxes) return
+            let isChecked = event.target.checked
             checkboxes.forEach(checkbox => {
                 checkbox.checked = isChecked;
             })
@@ -185,7 +169,6 @@ export default {
         countCheckboxChecked() {
             let checkboxes = this.$refs.checkboxes
             if (!checkboxes) return 0
-
             let i = 0
             this.reportIds = []
             checkboxes.forEach(checkbox => {

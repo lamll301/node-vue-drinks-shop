@@ -1,166 +1,176 @@
 <template>
-    <div class="admin-page" style="height: 800px;">
-        <div class="admin-content">
-            <div class="admin-content__heading">
-                <h3>Quản lý tài khoản</h3>
-            </div>
-            <img src="">
-            <!-- admin form -->
-            <div class="admin-content__form">
-                <div class="admin-content__header">
-                    <h4>Form sửa tài khoản</h4>
-                </div>
-                <form @submit.prevent="save()">
-                <div class="admin-content__form-body">
-                    <div class="mb-16">
-                        <h3 class="admin-content__form-text">Mã tài khoản</h3>
-                        <div class="valid-elm input-group">
-                            <input type="text" class="fs-16 form-control" disabled v-model="account._id">
-                        </div>
-                    </div>
-                    <div class="mb-16">
-                        <h3 class="admin-content__form-text">Tên tài khoản</h3>
-                        <div class="valid-elm input-group">
-                            <input type="text" class="fs-16 form-control" disabled v-model="account.username">
-                        </div>
-                    </div>
-                    <div class="mb-16">
-                        <h3 class="admin-content__form-text">Mật khẩu</h3>
-                        <div class="valid-elm input-group">
-                            <input type="text" class="fs-16 form-control" placeholder="Nhập mật khẩu" v-model="account.password">
-                        </div>
-                    </div>
-                    <div class="mb-16">
-                        <h3 class="admin-content__form-text">Quyền truy cập</h3>
-                        <div class="valid-elm input-group">
-                            <input type="text" class="fs-16 form-control" disabled :value="getAccountPermissionName()" ref="accountPermission">
-                        </div>
-                        <div class="input-group">
-                            <select class="valid-elm form-select mt-4" ref="selectedPermission">
-                                <option disabled value="">Chọn phân quyền</option>
-                                <option v-for="permission in permissions" :key="permission._id">
-                                    {{ permission.name }}
-                                </option>
-                            </select>
-                            <button class="valid-elm mt-4 btn btn-outline-secondary" type="button" @click="addPermission">Thêm</button>
-                            <button class="valid-elm mt-4 btn btn-outline-secondary" type="button" @click="removePermission">Xóa</button>
-                        </div>
-                    </div>
-                    <div class="mb-16">
-                        <h3 class="admin-content__form-text">Ngày tạo tài khoản</h3>
-                        <div class="valid-elm input-group">
-                            <input type="text" class="fs-16 form-control" disabled v-model="account.createdAt">
-                        </div>
-                    </div>
-                    <div class="mb-16">
-                        <h3 class="admin-content__form-text">Ngày cập nhật gần nhất</h3>
-                        <div class="valid-elm input-group">
-                            <input type="text" class="fs-16 form-control" disabled v-model="account.updatedAt">
-                        </div>
-                    </div>
-                    <div class="mb-16">
-                        <h3 class="admin-content__form-text">Trạng thái tài khoản</h3>
-                        <select class="valid-elm form-select" v-model="account.status">
-                            <option disabled value="">Chọn trạng thái tài khoản</option>
-                            <option>Hoạt động</option>
-                            <option>Bị khóa</option>
-                            <option>Bị đình chỉ</option>
-                        </select>
-                    </div>
-                    <div class="mb-16 admin-content__form-btn">
-                        <button type="submit" class="fs-16 btn btn-primary">Lưu thay đổi</button>
-                    </div>
-                </div>
-                </form>
-            </div>
+    <AdminContentWrapper :addHeight="50" contentSelector=".admin-content__form">
+        <div class="admin-content__heading">
+            <h3>Quản lý tài khoản</h3>
         </div>
-    </div>
+        <div class="admin-content__form">
+            <div class="admin-content__header">
+                <h4 v-if="this.$route.params.id">Form sửa tài khoản</h4>
+                <h4 v-else>Form thêm tài khoản</h4>
+            </div>
+            <form @submit.prevent="save()">
+            <div class="admin-content__form-body">
+                <div v-if="this.$route.params.id" class="mb-16">
+                    <h3 class="admin-content__form-text">Mã tài khoản</h3>
+                    <div class="valid-elm input-group">
+                        <input type="text" class="fs-16 form-control" disabled v-model="account._id">
+                    </div>
+                </div>
+                <div class="mb-16">
+                    <h3 class="admin-content__form-text">Tên tài khoản</h3>
+                    <div class="valid-elm input-group">
+                        <input type="text" class="fs-16 form-control" :disabled="this.$route.params.id" placeholder="Nhập tên tài khoản" v-model="account.username">
+                    </div>
+                </div>
+                <div class="mb-16">
+                    <h3 class="admin-content__form-text">Mật khẩu</h3>
+                    <div class="valid-elm input-group">
+                        <input type="text" class="fs-16 form-control" placeholder="Nhập mật khẩu" v-model="account.password">
+                    </div>
+                </div>
+                <div v-if="this.$route.params.id" class="mb-16">
+                    <h3 class="admin-content__form-text">Avatar</h3>
+                </div>
+                <div v-if="this.$route.params.id">
+                    <div class="admin-content__image-container mr-16 mb-16">
+                        <img v-bind:src="getImagePath(account.avatar, 'empty-avatar.webp')" class="img-thumbnail admin-content__image-report" alt="">
+                    </div>
+                </div>
+                <div class="mb-16" v-if="this.$route.params.id">
+                    <h3 class="admin-content__form-text">Trạng thái</h3>
+                    <select class="valid-elm form-select" v-model="account.status">
+                        <option disabled value="">Chọn trạng thái tài khoản</option>
+                        <option v-for="(label, value) in statusOptions" :key="value" :value="value">
+                            {{ label }}
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-16" v-if="this.$route.params.id">
+                    <h3 class="admin-content__form-text">Quyền truy cập</h3>
+                    <div class="valid-elm input-group mb-4">   
+                        <input type="text" class="fs-16 form-control" readonly v-model="account.permissionName">
+                    </div>
+                    <div class="input-group">
+                        <select class="valid-elm form-select" ref="selectedPermission">
+                            <option disabled value="">Chọn phân quyền</option>
+                            <option v-for="permission in permissions" :key="permission._id" :value="permission._id">
+                                {{ permission.name }}
+                            </option>
+                        </select>
+                        <button class="valid-elm btn btn-outline-secondary admin-content__form-btn-with-icon" type="button" @click="add">
+                            Thêm
+                            <img src="@/assets/img/add.png">
+                        </button>
+                        <button class="valid-elm btn btn-outline-secondary admin-content__form-btn-with-icon" type="button" @click="remove">
+                            Xóa
+                            <img src="@/assets/img/trash.png">
+                        </button>
+                    </div>
+                </div>
+                <div class="mb-16 admin-content__form-btn">
+                    <button type="submit" class="fs-16 btn btn-primary">Xác nhận</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </AdminContentWrapper>
 </template>
 
 <script>
+import { getImagePath, attributeValuesToString, getAttributeFromObjectArray, isExists } from '@/helpers/helpers.js'
+import { swalFire, swalMixin } from '@/helpers/swal.js'
+import AdminContentWrapper from '@/components/AdminHeightWrapperComponent.vue'
+
 export default {
     name: 'AccountForm',
+    components: {
+        AdminContentWrapper
+    },
+    computed: {
+        permissionIdArray() {
+            return getAttributeFromObjectArray(this.account.permissionId, '_id');
+        }
+    },
     data() {
         return {
             account: {},
-            permissions: [],
+            statusOptions: {},
+            permissions: []
         }
     },
     created() {
+        this.getAllPermissions()
         let accountId = this.$route.params.id
         if (accountId) {
             this.getAccount(accountId)
         }
-        this.getAllPermissions()
     },
     methods: {
+        getImagePath, attributeValuesToString, getAttributeFromObjectArray, isExists, swalFire, swalMixin,
         getAccount(accountId) {
             this.$request.get(`http://localhost:8080/admin/account/${accountId}`).then(res => {
-                this.account = res.data
+                this.account = res.data.account
+                this.statusOptions = res.data.ACCOUNT_STATUS_OPTIONS
+                this.account.permissionName = attributeValuesToString(this.account.permissionId, 'name')
             })
-        },
-        save() {
-            let permissionId = this.account.permission_id.map(permission => permission._id)
-            this.account.permission_id = permissionId
-            // sửa
-            this.$request.put(`http://localhost:8080/admin/account/${this.account._id}`, this.account).then(() => {
-                this.$swal.fire({
-                title: "Sửa thành công!",
-                text: "Dữ liệu của bạn đã được chỉnh sửa!",
-                icon: "success"
-                }).then(() => {
-                    this.$router.push({name: 'admin.accounts'})
-                })
-            })
-        },
-        getAccountPermissionName() {
-            if (this.account.permission_id) {
-                let allHaveName = this.account.permission_id.every(permission =>
-                    permission.name !== undefined && permission.name !== null
-                );
-                if (allHaveName) {
-                    return this.account.permission_id.map(permission => permission.name).join(', ');
-                }
-                else {
-                    // thay vì để trống sẽ tiến hành tìm trong permissions lấy ra name và join
-                    let permissionName = this.account.permission_id.map(id => {
-                        let permission = this.permissions.find(permission => permission._id === id);
-                        return permission ? permission.name : '';
-                    }).filter(name => name);
-                    return permissionName.join(', ');
-                }
-            }
         },
         getAllPermissions() {
-            this.$request.get('http://localhost:8080/admin/permission').then(res => {
+            this.$request.get('http://localhost:8080/admin/permission/all').then(res => {
                 this.permissions = res.data
             })
         },
-        addPermission() {
-            let selectedPermissionName = this.$refs.selectedPermission.value;
-            let selectedPermission = this.permissions.find(permission => permission.name === selectedPermissionName);
-            let selectedPermissionId = selectedPermission ? selectedPermission._id : null;
-            if (selectedPermissionId) {
-                // kiểm tra có tồn tại permission trong permission_id nếu chưa có tiến hành thêm
-                let existingPermission = this.account.permission_id.find(permission => permission._id === selectedPermissionId);
-                if (!existingPermission) {
-                    let newPermission = {
-                        _id: selectedPermissionId,
-                        name: selectedPermissionName
-                    }
-                    // sau khi thêm mặc định hiển thị lên thẻ input luôn do getAccountPermissionName luôn được gọi
-                    this.account.permission_id.push(newPermission)
-                }
+        save() {
+            if (this.account._id) {
+                let selectedPermissionId = parseInt(this.$refs.selectedPermission.value)
+                if (!isExists(this.permissionIdArray, selectedPermissionId)) this.account.selectedPermissionId = selectedPermissionId
+                else delete this.account.selectedPermissionId
+                
+                this.$request.put(`http://localhost:8080/admin/account/${this.account._id}`, this.account).then(() => {
+                    this.swalFire("Cập nhật thành công!", "Thông tin về tài khoản đã được cập nhật!", "success")
+                    .then(() => {
+                        this.$router.push({name: 'admin.accounts'})
+                    })
+                })
+            }
+            else {
+                this.$request.post('http://localhost:8080/admin/account/create', this.account).then(() => {
+                    this.swalFire("Thêm thành công!", "Tài khoản mới đã được thêm vào hệ thống!", "success")
+                    .then(() => {
+                        this.$router.push({name: 'admin.accounts'})
+                    })
+                })
             }
         },
-        removePermission() {
-            let selectedPermissionName = this.$refs.selectedPermission.value;
-            let selectedPermission = this.permissions.find(permission => permission.name === selectedPermissionName);
-            let selectedPermissionId = selectedPermission ? selectedPermission._id : null;
-            if (selectedPermissionId) {
-                this.account.permission_id = this.account.permission_id.filter(permission => permission._id !== selectedPermissionId);
+        add() {
+            let selectedPermissionId = parseInt(this.$refs.selectedPermission.value)
+            if (isExists(this.permissionIdArray, selectedPermissionId)) {
+                this.swalMixin('error', 'Phân quyền này đã có trong tài khoản!')
+                return
             }
+            this.$request.patch(`http://localhost:8080/admin/account/${this.account._id}/addPermission`, {
+                selectedPermissionId: selectedPermissionId
+            }).then(() => {
+                this.swalFire("Thêm thành công!", "Phân quyền đã được thêm vào tài khoản!", "success")
+                .then(() => {
+                    this.getAccount(this.account._id)
+                })
+            })
         },
+        remove() {
+            let selectedPermissionId = parseInt(this.$refs.selectedPermission.value)
+            if (!isExists(this.permissionIdArray, selectedPermissionId)) {
+                this.swalMixin('error', 'Phân quyền này không có trong tài khoản!')
+                return
+            }
+            this.$request.patch(`http://localhost:8080/admin/account/${this.account._id}/removePermission`, {
+                selectedPermissionId: selectedPermissionId
+            }).then(() => {
+                this.swalFire("Xóa thành công!", "Phân quyền đã được xóa khỏi tài khoản!", "success")
+                .then(() => {
+                    this.getAccount(this.account._id)
+                })
+            })
+        }
     }
 }
 </script>

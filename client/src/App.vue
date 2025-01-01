@@ -2,10 +2,6 @@
   <router-view></router-view>
 </template>
 
-<script>
-
-</script>
-
 <style>
 @import './assets/css/base.css';
 @import './assets/css/main.css';

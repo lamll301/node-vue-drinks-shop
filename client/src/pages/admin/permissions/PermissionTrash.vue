@@ -1,0 +1,196 @@
+<template>
+    <AdminHeightWrapperComponent :addHeight="100" contentSelector=".admin-content__table">
+        <div class="admin-content__heading">
+            <h3>Quản lý thùng rác</h3>
+            <router-link to="/admin/permission/create" class="admin-content__create">Thêm phân quyền</router-link>
+        </div>
+        <div class="admin-content__table">
+            <div class="admin-content__header d-flex align-items-center">
+                <h4>Phân quyền đã xóa</h4>
+                <select id="selectCheckboxAction" class="form-select admin-content__checkbox-select-all-opts">
+                    <option value="" selected>-- Hành động --</option>
+                    <option value="forceDelete">Xóa vĩnh viễn</option>
+                    <option value="restore">Khôi phục</option>
+                </select>
+                <button class="fs-16 btn btn-primary disabled" id="btnCheckboxSubmit" @click="btnCheckboxSubmitClicked()">Thực hiện</button>
+            </div>
+            <table class="table admin-content__table-main">
+                <thead class="admin-content__table-main-head">
+                    <tr class="admin-content__table-first-row">
+                        <th scope="col">
+                            <input class="form-check-input admin-content__checkbox" type="checkbox" ref="checkboxAll" @change="onCheckboxAllChange($event)">
+                        </th>
+                        <th scope="col">ID
+                            <SortComponent field="_id" :sort="sort"/>
+                        </th>
+                        <th scope="col">Tên
+                            <SortComponent field="name" :sort="sort"/>
+                        </th>
+                        <th scope="col">Mô tả
+                            <SortComponent field="description" :sort="sort"/>
+                        </th>
+                        <th scope="col">Ngày xóa
+                            <SortComponent field="deletedAt" :sort="sort"/>
+                        </th>
+                        <th scope="col" class="col-3"></th> 
+                    </tr>
+                </thead>
+                <tbody class="admin-content__table-main-body">
+                    <template v-if="permissions.length > 0">
+                        <tr class="admin-content__table-row" v-for="permission in permissions" :key="permission._id">
+                            <th>
+                                <input class="form-check-input" type="checkbox" ref="checkboxes" :value="permission._id" @change="onCheckboxChange()">
+                            </th>
+                            <th>{{ permission._id }}</th>
+                            <td>{{ permission.name }}</td>
+                            <td>{{ permission.description }}</td>
+                            <td>{{ convertDate(permission.deletedAt) }}</td>
+                            <td>
+                                <button class="fs-16 btn btn-primary" @click="onRestore(permission._id)">Khôi phục</button>&nbsp;
+                                <button class="fs-16 btn btn-danger" @click="onDelete(permission._id)">Xóa vĩnh viễn</button>
+                            </td>
+                        </tr>
+                    </template>
+                    <template v-else>
+                        <tr>
+                            <td colspan="6" class="text-center">
+                                Thùng rác trống.
+                                <router-link to="/admin/permission">Danh sách phân quyền</router-link>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+            <div class="admin-content__table-footer"></div>
+        </div>
+        <PaginationComponent :totalPages="totalPages" :currentPage="currentPage"/>
+    </AdminHeightWrapperComponent>
+</template>
+
+<script>
+/* eslint-disable */
+import { convertDate } from '@/helpers/helpers.js'
+import { swalFire, swalMixin } from '@/helpers/swal.js'
+import PaginationComponent from '@/components/PaginationComponent.vue'
+import AdminHeightWrapperComponent from '@/components/AdminHeightWrapperComponent.vue'
+import SortComponent from '@/components/SortComponent.vue'
+
+export default {
+    name: 'PermissionTrash',
+    components: {
+        PaginationComponent,
+        AdminHeightWrapperComponent,
+        SortComponent
+    },
+    watch: {
+        '$route.query': 'getAll',
+    },
+    data() {
+        return {
+            permissions: [],
+            totalPages: 0,
+            sort: {},
+            permissionIds: [],
+            currentPage: 1
+        }
+    },
+    created() {
+        this.getAll()
+    },
+    methods: {
+        convertDate, swalFire, swalMixin,
+        getAll() {
+            const params = new URLSearchParams(this.$route.query).toString()
+            this.$request.get(`http://localhost:8080/admin/permission/trash?${params}`).then(res => {
+                this.permissions = res.data.permissions
+                this.totalPages = res.data.totalPages
+                this.sort = res.data._sort
+                this.currentPage = parseInt(this.$route.query.page) || 1
+            })
+        },
+        onDelete(permissionId) {
+            this.$swal.fire({
+            title: "Bạn chắc chắn?",
+            text: "Bạn sẽ không thể khôi phục lại dữ liệu!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Có, tôi muốn xóa!"
+            }).then((result) => {
+            if (result.isConfirmed) {
+                this.$request.delete(`http://localhost:8080/admin/permission/${permissionId}/force`).then(() => {
+                    this.swalFire("Xóa thành công!", "Phân quyền của bạn đã được xóa vĩnh viễn khỏi hệ thống.", "success")
+                    .then(() => {
+                        this.getAll()
+                    })
+                })
+            }
+            });
+        },
+        onRestore(permissionId) {
+            this.$request.patch(`http://localhost:8080/admin/permission/${permissionId}/restore`).then(() => {
+                this.swalFire("Khôi phục thành công!", "Phân quyền của bạn đã được khôi phục!", "success")
+                .then(() => {
+                    this.getAll()
+                })
+            })
+        },
+        btnCheckboxSubmitClicked() {
+            let selectedCheckboxAction = document.getElementById('selectCheckboxAction').value
+            if (!selectedCheckboxAction) {
+                this.swalMixin('error', 'Vui lòng chọn hành động trước khi thực hiện!')
+                return
+            }
+            this.$request.post(`http://localhost:8080/admin/permission/handle-form-actions`, {
+                action: selectedCheckboxAction,
+                permissionIds: this.permissionIds,
+            }).then(() => {
+                this.swalFire("Thực hiện thành công!", "Hành động của bạn đã được thực hiện thành công!", "success")
+                .then(() => {
+                    this.getAll()
+                    this.$refs.checkboxAll.checked = false;
+                })
+            })
+        },
+
+        onCheckboxAllChange(event) {
+            let isChecked = event.target.checked
+            let checkboxes = this.$refs.checkboxes
+            if (!checkboxes) return
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = isChecked;
+            })
+            let checkedCount = this.countCheckboxChecked()
+            this.renderBtnCheckboxSubmit(checkedCount)
+        },
+        onCheckboxChange() {
+            let checkedCount = this.countCheckboxChecked()
+            let isCheckedAll = checkedCount === this.$refs.checkboxes.length
+            this.$refs.checkboxAll.checked = isCheckedAll
+            this.renderBtnCheckboxSubmit(checkedCount)
+        },
+        countCheckboxChecked() {
+            let checkboxes = this.$refs.checkboxes
+            if (!checkboxes) return 0
+
+            let i = 0
+            this.permissionIds = []
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    i++
+                    this.permissionIds.push(checkbox.value)
+                }
+            })
+            return i
+        },
+        renderBtnCheckboxSubmit(checkedCount) {
+            let btnCheckboxSubmit = document.getElementById('btnCheckboxSubmit')
+            if (checkedCount > 0) {
+                btnCheckboxSubmit.classList.remove('disabled')
+            }
+            else btnCheckboxSubmit.classList.add('disabled')
+        },
+    }
+}
+</script>

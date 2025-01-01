@@ -1,5 +1,6 @@
 
 const Report = require('../models/Report')
+const { stringToArray, pagination } = require('../../helpers/helpers')
 
 const REPORT_STATUS_OPTIONS = {
     'draft': 'Bản nháp',
@@ -11,14 +12,10 @@ class AdminReportController {
 
     // [GET] /admin/report
     async show(req, res, next) {
-        const total = await Report.countDocuments({})
-        let page = parseInt(req.query.page)
-        const totalPages = Math.ceil(total / PAGE_SIZE)
-        page = page > totalPages ? totalPages : page        
-        page = page < 1 ? 1 : page                      // if total = 0, page = 1 => page = 0 (err) => đặt đk xuống đây
-        let skip = (page - 1) * PAGE_SIZE
+        const total = await Report.searchable(req).countDocuments()
+        const { totalPages, skip } = pagination(req, total, PAGE_SIZE)
         await Promise.all([
-            Report.find({}).sortable(req)
+            Report.searchable(req).sortable(req)
                 .skip(skip)
                 .limit(PAGE_SIZE),
             Report.countDocumentsWithDeleted({ deleted: true }),
@@ -39,8 +36,8 @@ class AdminReportController {
     async create(req, res, next) {
         let reportObj = { ...req.body }
         reportObj.images = []
-        if (reportObj.tags) {   // chuyển chuỗi tags thành mảng
-            reportObj.tags = reportObj.tags.split(',').map(tag => tag.trim()).filter(tag => tag !== '')
+        if (reportObj.tags) {
+            reportObj.tags = stringToArray(reportObj.tags)
         }
         if (req.file) {
             reportObj.images.push({
@@ -57,7 +54,7 @@ class AdminReportController {
 
     // [DELETE] /admin/report/:id
     async delete(req, res, next) {
-        await Report.delete({ _id: req.params.id })     // soft delete
+        await Report.delete({ _id: req.params.id })
             .then(() => res.send('success'))
             .catch(next)
     }
@@ -71,11 +68,11 @@ class AdminReportController {
     
     // [PUT] /admin/report/:id
     async update(req, res, next) {
-        delete req.body.slug;
+        delete req.body.slug
         let report = { ...req.body }
         delete report.images
-        if (report.tags) {   // chuyển chuỗi tags thành mảng   
-            report.tags = report.tags.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
+        if (report.tags) {
+            report.tags = stringToArray(report.tags)
         }
         if (req.file) {
             const newImage = {
@@ -90,11 +87,9 @@ class AdminReportController {
             .catch(next)
     } 
 
-    // [PUT] /admin/report/:id/addImage
+    // [PATCH] /admin/report/:id/addImage
     async addImage(req, res, next) {
-        if (!req.file) {
-            return;
-        } 
+        if (!req.file) return
         const newImage = {
             data: req.file.buffer,
             contentType: req.file.mimetype,
@@ -108,7 +103,7 @@ class AdminReportController {
             .catch(next)
     } 
 
-    // [PUT] /admin/report/:id/removeImage
+    // [PATCH] /admin/report/:id/removeImage
     async removeImage(req, res, next) {
         const { imageId } = req.body
         await Report.updateOne(
@@ -119,16 +114,12 @@ class AdminReportController {
             .catch(next)
     }
     
-    // trash
     // [GET] /admin/report/trash
     async trash(req, res, next) {
-        const total = await Report.countDocumentsWithDeleted({ deleted: true })
-        let page = parseInt(req.query.page)
-        const totalPages = Math.ceil(total / PAGE_SIZE);
-        page = page > totalPages ? totalPages : page;
-        page = page < 1 ? 1 : page
-        let skip = (page - 1) * PAGE_SIZE
-        await Report.findWithDeleted({ deleted: true }).sortable(req)
+        const searchQuery = Report.getSearchQuery(req)
+        const total = await Report.countDocumentsWithDeleted({ ...searchQuery, deleted: true })
+        const { totalPages, skip } = pagination(req, total, PAGE_SIZE)
+        await Report.searchable(req, true).sortable(req)
             .skip(skip)
             .limit(PAGE_SIZE)
             .then(reports => {
@@ -151,7 +142,7 @@ class AdminReportController {
 
     // [DELETE] /admin/report/:id/force
     async forceDelete(req, res, next) {
-        await Report.deleteOne({ _id: req.params.id })     // force delete
+        await Report.deleteOne({ _id: req.params.id })
             .then(() => res.send('success'))
             .catch(next)
     }

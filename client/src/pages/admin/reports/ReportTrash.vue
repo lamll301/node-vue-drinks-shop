@@ -48,7 +48,7 @@
                             <th>{{ report._id }}</th>
                             <td>{{ report.title }}</td>
                             <td>{{ report.author }}</td>
-                            <td>{{ handleDate(report.deletedAt) }}</td>
+                            <td>{{ convertDate(report.deletedAt) }}</td>
                             <td>{{ statusOptions[report.status] || report.status }}</td>
                             <td>
                                 <button class="fs-16 btn btn-primary" @click="onRestore(report._id)">Khôi phục</button>&nbsp;
@@ -74,6 +74,7 @@
 
 <script>
 /* eslint-disable */
+import { convertDate } from '@/helpers/helpers.js'
 import PaginationComponent from '@/components/PaginationComponent.vue'
 import AdminHeightWrapperComponent from '@/components/AdminHeightWrapperComponent.vue'
 import SortComponent from '@/components/SortComponent.vue'
@@ -102,14 +103,11 @@ export default {
         this.getAll()
     },
     methods: {
+        convertDate,
         getAll() {
-            this.$request.get(`http://localhost:8080/admin/report/trash?page=${this.$route.query.page}`).then(res => {
-                this.reports = res.data.reports.map(report => {
-                    return {
-                        ...report,
-                        tags: this.handleTag(report.tags)
-                    }
-                })
+            const params = new URLSearchParams(this.$route.query).toString()
+            this.$request.get(`http://localhost:8080/admin/report/trash?${params}`).then(res => {
+                this.reports = res.data.reports
                 this.statusOptions = res.data.REPORT_STATUS_OPTIONS
                 this.totalPages = res.data.totalPages
                 this.sort = res.data._sort
@@ -150,15 +148,6 @@ export default {
                     this.getAll()
                 })
             })
-        },
-        handleTag(array) {      // chuyển string[] => string
-            if (Array.isArray(array)) {
-                return array.join(', ')
-            }
-            return ''
-        },
-        handleDate(dateString) {
-            return dateString.split('T')[0]
         },
         // checkbox
         onCheckboxAllChange(event) {

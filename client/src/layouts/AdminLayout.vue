@@ -32,13 +32,27 @@
                 </div>
                 <ul class="header-admin__dropdown-menu">
                     <li class="header-admin__dropdown-item"><router-link to="/admin/account">Tất cả tài khoản</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/account/create">Thêm tài khoản</router-link></li>
+                </ul>
+            </div>
+            <div class="header-admin__dropdown">
+                <div class="header-admin__dropdown-content">
+                    <div class="header-admin__dropdown-content-text">
+                        <i class="fa-solid fa-icons header-admin__dropdown-icon"></i>
+                        Quản lý đơn vị tính
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <ul class="header-admin__dropdown-menu">
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/unit">Tất cả đơn vị tính</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/unit/create">Thêm đơn vị tính</router-link></li>
                 </ul>
             </div>
             <div class="header-admin__label1">NHÂN VIÊN HỆ THỐNG</div>
             <div class="header-admin__dropdown">
                 <div class="header-admin__dropdown-content">
                     <div class="header-admin__dropdown-content-text">
-                        <i class="fa-solid fa-user header-admin__dropdown-icon"></i>
+                        <i class="fa-solid fa-mug-hot header-admin__dropdown-icon"></i>
                         Quản lý đồ uống
                     </div>
                     <i class="fa-solid fa-chevron-down"></i>
@@ -46,25 +60,39 @@
                 <ul class="header-admin__dropdown-menu">
                     <li class="header-admin__dropdown-item"><router-link to="/admin/beverage">Tất cả đồ uống</router-link></li>
                     <li class="header-admin__dropdown-item"><router-link to="/admin/beverage/create">Thêm đồ uống</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/beverageIngredient/create">Thêm chi tiết thành phần</router-link></li>
                 </ul>
             </div>
             <div class="header-admin__dropdown">
                 <div class="header-admin__dropdown-content">
                     <div class="header-admin__dropdown-content-text">
-                        <i class="fa-solid fa-user header-admin__dropdown-icon"></i>
-                        Quản lý DM đồ uống
+                        <i class="fa-solid fa-seedling header-admin__dropdown-icon"></i>
+                        Quản lý nguyên liệu
                     </div>
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <ul class="header-admin__dropdown-menu">
-                    <li class="header-admin__dropdown-item"><router-link to="/admin/category">Tất cả DM đồ uống</router-link></li>
-                    <li class="header-admin__dropdown-item"><router-link to="/admin/category/create">Thêm DM đồ uống</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/ingredient">Tất cả nguyên liệu</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/ingredient/create">Tạo nguyên liệu</router-link></li>
                 </ul>
             </div>
             <div class="header-admin__dropdown">
                 <div class="header-admin__dropdown-content">
                     <div class="header-admin__dropdown-content-text">
-                        <i class="fa-solid fa-user header-admin__dropdown-icon"></i>
+                        <i class="fa-solid fa-table-list header-admin__dropdown-icon"></i>
+                        Quản lý danh mục
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <ul class="header-admin__dropdown-menu">
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/category">Tất cả danh mục</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/category/create">Thêm danh mục</router-link></li>
+                </ul>
+            </div>
+            <div class="header-admin__dropdown">
+                <div class="header-admin__dropdown-content">
+                    <div class="header-admin__dropdown-content-text">
+                        <i class="fa-solid fa-building header-admin__dropdown-icon"></i>
                         Quản lý nhà cung cấp
                     </div>
                     <i class="fa-solid fa-chevron-down"></i>
@@ -77,7 +105,7 @@
             <div class="header-admin__dropdown">
                 <div class="header-admin__dropdown-content">
                     <div class="header-admin__dropdown-content-text">
-                        <i class="fa-solid fa-user header-admin__dropdown-icon"></i>
+                        <i class="fa-solid fa-newspaper header-admin__dropdown-icon"></i>
                         Quản lý tin tức
                     </div>
                     <i class="fa-solid fa-chevron-down"></i>
@@ -90,27 +118,27 @@
             <div class="header-admin__dropdown">
                 <div class="header-admin__dropdown-content">
                     <div class="header-admin__dropdown-content-text">
-                        <i class="fa-solid fa-user header-admin__dropdown-icon"></i>
+                        <i class="fa-solid fa-percent header-admin__dropdown-icon"></i>
                         Quản lý khuyến mãi
                     </div>
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <ul class="header-admin__dropdown-menu">
-                    <li class="header-admin__dropdown-item"><router-link to="">Tất cả khuyến mãi</router-link></li>
-                    <li class="header-admin__dropdown-item"><router-link to="">Thêm khuyến mãi</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/promotion">Tất cả khuyến mãi</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/promotion/create">Thêm khuyến mãi</router-link></li>
                 </ul>
             </div>
             <div class="header-admin__dropdown">
                 <div class="header-admin__dropdown-content">
                     <div class="header-admin__dropdown-content-text">
-                        <i class="fa-solid fa-user header-admin__dropdown-icon"></i>
-                        Quản lý doanh thu
+                        <i class="fa-solid fa-ticket header-admin__dropdown-icon"></i>
+                        Quản lý voucher
                     </div>
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <ul class="header-admin__dropdown-menu">
-                    <li class="header-admin__dropdown-item"><router-link to="">Tất cả doanh thu</router-link></li>
-                    <li class="header-admin__dropdown-item"><router-link to="">Tạo doanh thu</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/voucher">Tất cả voucher</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/voucher/create">Thêm voucher</router-link></li>
                 </ul>
             </div>
             
@@ -119,14 +147,26 @@
             <div class="header-admin__dropdown">
                 <div class="header-admin__dropdown-content">
                     <div class="header-admin__dropdown-content-text">
-                        <i class="fa-solid fa-user header-admin__dropdown-icon"></i>
+                        <i class="fa-solid fa-file header-admin__dropdown-icon"></i>
                         Quản lý đơn hàng
                     </div>
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <ul class="header-admin__dropdown-menu">
-                    <li class="header-admin__dropdown-item"><router-link to="">Tất cả đơn hàng</router-link></li>
-                    <li class="header-admin__dropdown-item"><router-link to="">In hóa đơn</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/order">Tất cả đơn hàng</router-link></li>
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/order/create">In hóa đơn</router-link></li>
+                </ul>
+            </div>
+            <div class="header-admin__dropdown">
+                <div class="header-admin__dropdown-content">
+                    <div class="header-admin__dropdown-content-text">
+                        <i class="fa-solid fa-address-card header-admin__dropdown-icon"></i>
+                        Quản lý khách hàng
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <ul class="header-admin__dropdown-menu">
+                    <li class="header-admin__dropdown-item"><router-link to="/admin/customer">Tất cả khách hàng</router-link></li>
                 </ul>
             </div>
         </header>
@@ -135,7 +175,7 @@
             <nav class="nav-admin">
                 <div class="nav-admin__left">
                     <i class="fa-solid fa-bars nav-admin__icon"></i>
-                    <input type="text" class="nav-admin__search" placeholder="Tìm kiếm">
+                    <input type="text" class="nav-admin__search" placeholder="Tìm kiếm" @keyup.enter="search">
                 </div>
                 <div class="nav-admin__right">
                     <div class="nav-admin__circle">
@@ -225,3 +265,20 @@
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    methods: {
+        search(event) {
+            const key = event.target.value
+            const params = new URLSearchParams(this.$route.query)
+            if (key) {
+                params.set('key', key)
+            } else {
+                params.delete('key')
+            }
+            this.$router.push(this.$route.path + '?' + params.toString())
+        }
+    }
+}
+</script>
